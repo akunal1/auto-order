@@ -5,15 +5,18 @@ const formFields = require("./addresses.json");
 (async () => {
   let i = 0;
   while (1) {
-    // const browser = await puppeteer.launch({ headless: false });
+    // Launch Puppeteer
     const browser = await puppeteer.launch({
       headless: true, // Use headless mode in CI environments
       args: ["--no-sandbox", "--disable-setuid-sandbox"], // Disable the sandbox
     });
     const page = await browser.newPage();
+
+    // Reset index if it reaches the end of the address list
     if (i == 1999) {
       i = 0;
     }
+
     // Navigate to the product URL
     await page.goto(
       "https://seedghani.com/products/first-rain-perfume-oil-699-12ml-inspire",
@@ -29,9 +32,11 @@ const formFields = require("./addresses.json");
     await page.click(popupButtonSelector);
     console.log("Popup button clicked.");
 
-    // Replace waitForTimeout with setTimeout polyfill
-    await new Promise((resolve) => setTimeout(resolve, 5000)); // Adjust delay if needed
+    // Wait for the form to appear
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+
     try {
+      // Fill the form fields
       await page.type('input[name="first_name"]', formFields[i].first_name);
       await page.type('input[name="phone"]', formFields[i].phone);
       await page.type('input[name="address"]', formFields[i].address);
@@ -42,17 +47,26 @@ const formFields = require("./addresses.json");
       console.log(e);
       i = 0;
     }
-    await new Promise((resolve) => setTimeout(resolve, 5000)); // Adjust delay if needed
-    // Submit the form
+
+    // Wait for the submit button and click it
     const submitButtonSelector = ".es-button";
     await page.waitForSelector(submitButtonSelector, { timeout: 10000 });
-    await page.click(submitButtonSelector);
+    const [response] = await Promise.all([
+      page.waitForNavigation({ waitUntil: "networkidle2" }), // Wait for the URL to change
+      page.click(submitButtonSelector), // Click the submit button
+    ]);
     console.log("Form submitted.");
+
+  
 
     // Optional: Wait for form submission response
     await new Promise((resolve) => setTimeout(resolve, 5000));
 
-    // Keep the browser open for 1 minute
+      // Log the new URL
+    const newUrl = page.url();
+    console.log("New URL:", newUrl);
+
+    // Keep the browser open for 30 seconds
     console.log("Keeping the browser open for 30sec...");
     await new Promise((resolve) => setTimeout(resolve, 30000));
 
