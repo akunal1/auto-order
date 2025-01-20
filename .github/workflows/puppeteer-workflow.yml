@@ -1,0 +1,30 @@
+name: Puppeteer Automation
+
+on:
+  schedule:
+    # Run every 2 hours
+    - cron: "0 */2 * * *"
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  puppeteer-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18" # Specify Node.js version compatible with Puppeteer
+
+      # Install Puppeteer dependencies
+      - name: Install Dependencies
+        run: npm install
+
+      # Run the Puppeteer script
+      - name: Run Puppeteer Script
+        run: node your-script.js
