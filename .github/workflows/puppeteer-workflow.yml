@@ -27,4 +27,4 @@ jobs:
 
       # Run the Puppeteer script
       - name: Run Puppeteer Script
-        run: node your-script.js
+        run: node automation.js
