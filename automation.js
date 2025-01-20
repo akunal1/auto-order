@@ -5,7 +5,11 @@ const formFields = require("./addresses.json");
 (async () => {
   let i = 0;
   while (1) {
-    const browser = await puppeteer.launch({ headless: false });
+    // const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({
+      headless: true, // Use headless mode in CI environments
+      args: ["--no-sandbox", "--disable-setuid-sandbox"], // Disable the sandbox
+    });
     const page = await browser.newPage();
     if (i == 1999) {
       i = 0;
