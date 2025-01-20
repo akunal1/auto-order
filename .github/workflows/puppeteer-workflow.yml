@@ -2,9 +2,8 @@ name: Puppeteer Automation
 
 on:
   schedule:
-    # Run every 2 hours
-    - cron: "0 */2 * * *"
-  workflow_dispatch: # Allows manual triggering
+    - cron: "0 */2 * * *" # Run every 2 hours
+  workflow_dispatch: # Allow manual triggering
 
 jobs:
   puppeteer-job:
@@ -19,12 +18,18 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18" # Specify Node.js version compatible with Puppeteer
+          node-version: "18"
+
+      # Install Chromium dependencies
+      - name: Install Chromium dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxcomposite1 libxrandr2 libxdamage1 libxkbcommon0 libgbm1
 
       # Install Puppeteer dependencies
       - name: Install Dependencies
         run: npm install
 
-      # Run the Puppeteer script
+      # Run Puppeteer script
       - name: Run Puppeteer Script
         run: node automation.js
