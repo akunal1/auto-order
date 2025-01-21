@@ -3,19 +3,16 @@ const puppeteer = require("puppeteer");
 const formFields = require("./addresses.json");
 
 (async () => {
-  let i = 0;
   while (1) {
+    // Assign a random number to i for each iteration
+    const i = Math.floor(Math.random() * 2000);
+
     // Launch Puppeteer
     const browser = await puppeteer.launch({
       headless: true, // Use headless mode in CI environments
       args: ["--no-sandbox", "--disable-setuid-sandbox"], // Disable the sandbox
     });
     const page = await browser.newPage();
-
-    // Reset index if it reaches the end of the address list
-    if (i == 1999) {
-      i = 0;
-    }
 
     // Navigate to the product URL
     await page.goto(
@@ -44,27 +41,39 @@ const formFields = require("./addresses.json");
       await page.type('input[name="zip"]', formFields[i].zip);
       console.log("Form fields filled.");
     } catch (e) {
-      console.log(e);
-      i = 0;
+      console.error("Error filling form fields:", e);
+      await browser.close();
+      continue; // Skip this iteration and restart
     }
 
     // Wait for the submit button and click it
     const submitButtonSelector = ".es-button";
     await page.waitForSelector(submitButtonSelector, { timeout: 10000 });
-    const [response] = await Promise.all([
-      page.waitForNavigation({ waitUntil: "networkidle2" }), // Wait for the URL to change
-      page.click(submitButtonSelector), // Click the submit button
-    ]);
-    console.log("Form submitted.");
 
-  
-
-    // Optional: Wait for form submission response
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    let newUrl;
+    try {
+      const [response] = await Promise.all([
+        page.waitForNavigation({ waitUntil: "networkidle2" }), // Wait for the URL to change
+        page.click(submitButtonSelector), // Click the submit button
+      ]);
+      console.log("Form submitted.");
 
       // Log the new URL
-    const newUrl = page.url();
-    console.log("New URL:", newUrl);
+      newUrl = page.url();
+      console.log("New URL:", newUrl);
+    } catch (error) {
+      console.error("Error detecting URL change:", error);
+      newUrl = null;
+    }
+
+    // Check if new URL is null
+    if (!newUrl) {
+      console.log("URL is null or an error occurred. Sleeping for 13 hours...");
+      await new Promise((resolve) => setTimeout(resolve, 13 * 60 * 60 * 1000)); // Sleep for 13 hours
+    }
+
+    // Optional: Wait after form submission
+    await new Promise((resolve) => setTimeout(resolve, 5000));
 
     // Keep the browser open for 30 seconds
     console.log("Keeping the browser open for 30sec...");
@@ -72,6 +81,5 @@ const formFields = require("./addresses.json");
 
     await browser.close();
     console.log("Automation complete. Browser closed.");
-    i++;
   }
 })();
