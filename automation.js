@@ -40,6 +40,7 @@ const formFields = require("./addresses.json");
       await page.type('input[name="address2"]', formFields[i].address2);
       await page.type('input[name="zip"]', formFields[i].zip);
       console.log("Form fields filled.");
+      await new Promise((resolve) => setTimeout(resolve, 5000));
     } catch (e) {
       console.error("Error filling form fields:", e);
       await browser.close();
