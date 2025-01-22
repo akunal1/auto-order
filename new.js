@@ -52,10 +52,11 @@ puppeteer.use(StealthPlugin());
       await page.reload({ waitUntil: "networkidle2" });
       console.log("Page refreshed.");
 
-      await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait 10 seconds
+      await new Promise((resolve) => setTimeout(resolve, 15000)); // Wait 10 seconds
 
       // Click on the cart icon
       const cartIconId = "#cart-icon-bubble";
+      await page.waitForSelector(cartIconId, { timeout: 10000 });
       await page
         .click(cartIconId)
         .catch(() => console.log("Cart icon not found"));
