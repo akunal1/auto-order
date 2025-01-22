@@ -1,6 +1,6 @@
 const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
-const formFields = require("./new_data.json");
+const formFields = require("./updated_addresses.json");
 
 puppeteer.use(StealthPlugin());
 
