@@ -32,4 +32,4 @@ jobs:
 
       # Run Puppeteer script
       - name: Run Puppeteer Script
-        run: node automation.js
+        run: node new.js
