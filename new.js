@@ -15,7 +15,7 @@ puppeteer.use(StealthPlugin());
       i = 0;
     }
     const browser = await puppeteer.launch({
-      headless: false, // Set to true for CI
+      headless: true, // Set to true for CI
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
       //   devtools: true,
     });
