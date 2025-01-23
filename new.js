@@ -63,6 +63,7 @@ puppeteer.use(StealthPlugin());
         .catch(() => console.log("Cart icon not found"));
 
       await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait 5 seconds
+     i++;
 
       // Click on the checkout button
       const checkoutButtonId = ".cart__checkout-button";
@@ -134,7 +135,7 @@ puppeteer.use(StealthPlugin());
     } catch (error) {
       console.error("Error during automation:", error);
     } finally {
-      i++;
+      // i++;
       await browser.close();
       console.log("Browser closed. Restarting process...");
     }
