@@ -6,12 +6,13 @@ puppeteer.use(StealthPlugin());
 
 (async () => {
   let i = 0;
+  let j = -1
   while (true) {
     console.log(
       "\n********************** order number *********************** ",
-      i
+      ++j
     );
-    if (i > 1999) {
+    if (i > 5999) {
       i = 0;
     }
     const browser = await puppeteer.launch({
@@ -29,10 +30,10 @@ puppeteer.use(StealthPlugin());
         "https://seedghani.com/products/first-rain-attar-799-12ml",
       ];
       const randomUrl = urls[Math.floor(Math.random() * urls.length)];
-      await page.goto(randomUrl, { waitUntil: "networkidle2", timeout: 60000 });
+      await page.goto(randomUrl, { waitUntil: "networkidle2", timeout: 30000 });
       console.log(`Navigated to ${randomUrl}`);
 
-      await new Promise((resolve) => setTimeout(resolve, 10000)); // Wait 10 seconds
+      await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait 10 seconds
 
       // Click on the popup button
       //   const popupButtonId = "#es-popup-button";
@@ -129,7 +130,7 @@ puppeteer.use(StealthPlugin());
         .click(payButtonId)
         .catch(() => console.log("Pay button not found"));
 
-      await new Promise((resolve) => setTimeout(resolve, 30000)); // Wait 30 seconds
+      await new Promise((resolve) => setTimeout(resolve, 20000)); // Wait 30 seconds
     } catch (error) {
       console.error("Error during automation:", error);
     } finally {
