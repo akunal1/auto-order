@@ -30,7 +30,7 @@ puppeteer.use(StealthPlugin());
         "https://seedghani.com/products/first-rain-attar-799-12ml",
       ];
       const randomUrl = urls[Math.floor(Math.random() * urls.length)];
-      await page.goto(randomUrl, { waitUntil: "networkidle2", timeout: 30000 });
+      await page.goto(randomUrl, { waitUntil: "networkidle2", timeout: 60000 });
       console.log(`Navigated to ${randomUrl}`);
 
       await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait 10 seconds
@@ -57,7 +57,7 @@ puppeteer.use(StealthPlugin());
 
       // Click on the cart icon
       const cartIconId = "#cart-icon-bubble";
-      await page.waitForSelector(cartIconId, { timeout: 10000 });
+      await page.waitForSelector(cartIconId, { timeout: 20000 });
       await page
         .click(cartIconId)
         .catch(() => console.log("Cart icon not found"));
