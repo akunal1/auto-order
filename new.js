@@ -6,11 +6,13 @@ puppeteer.use(StealthPlugin());
 
 (async () => {
   let i = 0;
-  let j = -1
+  let j = -1;
   while (true) {
     console.log(
       "\n********************** order number *********************** ",
-      ++j
+      ++j,
+      "at : ",
+      new Date().toLocaleString()
     );
     if (i > 5999) {
       i = 0;
@@ -53,35 +55,39 @@ puppeteer.use(StealthPlugin());
       await page.reload({ waitUntil: "networkidle2" });
       console.log("Page refreshed.");
 
-      await new Promise((resolve) => setTimeout(resolve, 15000)); // Wait 10 seconds
+      //   await new Promise((resolve) => setTimeout(resolve, 10000)); // Wait 10 seconds
 
       // Click on the cart icon
-      const cartIconId = "#cart-icon-bubble";
-      await page.waitForSelector(cartIconId, { timeout: 20000 });
-      await page
-        .click(cartIconId)
-        .catch(() => console.log("Cart icon not found"));
+      //   const cartIconId = "#cart-icon-bubble";
+      //   await page.waitForSelector(cartIconId, { timeout: 20000 });
+      //   await page
+      //     .click(cartIconId)
+      //     .catch(() => console.log("Cart icon not found"));
 
-      await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait 5 seconds
-     i++;
+      await page.goto("https://seedghani.com/cart", {
+        waitUntil: "networkidle2",
+        timeout: 60000,
+      });
+
+      console.log("Navigated to cart page");
+      //   await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait 5 seconds
 
       // Click on the checkout button
-      const checkoutButtonId = ".cart__checkout-button";
+      const checkoutButtonId = "#checkout"; //".cart__checkout-button";
       //   const checkoutButtonExists = await page.$(checkoutButtonId);
 
       await page.waitForSelector(checkoutButtonId, { timeout: 10000 });
 
       await page.click(checkoutButtonId);
       console.log("checkoutButtonId button clicked.");
-
       await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait 15 seconds
       console.log("waited 5 seconds");
 
-      const popup_button = "#checkout";
-      await page.waitForSelector(popup_button, { timeout: 10000 });
-      await page.click(popup_button);
+      //   const popup_button = "#checkout";
+      //   await page.waitForSelector(popup_button, { timeout: 10000 });
+      //   await page.click(popup_button);
 
-      await new Promise((resolve) => setTimeout(resolve, 5000));
+      //   await new Promise((resolve) => setTimeout(resolve, 5000));
 
       // Fill the form fields
       //   const i = Math.floor(Math.random() * formFields.length);
@@ -98,14 +104,28 @@ puppeteer.use(StealthPlugin());
         timeout: 10000,
       });
 
-      await page.type('input[name="email"]', data.email);
-      await page.type('input[name="firstName"]', data.firstName);
-      await page.type('input[name="lastName"]', data.lastName);
-      await page.type('input[name="address1"]', data.address1);
-      await page.type('input[name="address2"]', data.address2);
-      await page.type('input[name="city"]', data.city);
+      await page.type('input[name="email"]', data.email, {
+        delay: Math.random() * 200 + 50,
+      });
+      await page.type('input[name="firstName"]', data.firstName, {
+        delay: Math.random() * 200 + 50,
+      });
+      await page.type('input[name="lastName"]', data.lastName, {
+        delay: Math.random() * 200 + 50,
+      });
+      await page.type('input[name="address1"]', data.address1, {
+        delay: Math.random() * 200 + 50,
+      });
+      await page.type('input[name="address2"]', data.address2, {
+        delay: Math.random() * 200 + 50,
+      });
+      await page.type('input[name="city"]', data.city, {
+        delay: Math.random() * 200 + 50,
+      });
       await page.select('select[name="zone"]', data.zone);
-      await page.type('input[name="postalCode"]', data.postalCode.toString());
+      await page.type('input[name="postalCode"]', data.postalCode.toString(), {
+        delay: Math.random() * 200 + 50,
+      });
 
       //   await typeLikeHuman('input[name="email"]', data.email);
       //   await typeLikeHuman('input[name="firstName"]', data.firstName);
@@ -135,7 +155,7 @@ puppeteer.use(StealthPlugin());
     } catch (error) {
       console.error("Error during automation:", error);
     } finally {
-      // i++;
+      i++;
       await browser.close();
       console.log("Browser closed. Restarting process...");
     }
