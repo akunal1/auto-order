@@ -190,6 +190,7 @@ const saveLastIndex = (index) => {
       saveLastIndex(i); // Save the current value of `i`
       await browser.close();
       console.log("Browser closed. Restarting process...");
+      break;
     }
   }
 })();
