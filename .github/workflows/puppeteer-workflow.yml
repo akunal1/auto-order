@@ -24,6 +24,7 @@ jobs:
         with:
           name: puppeteer-state
           path: ./state # Save to a "state" folder
+        continue-on-error: true
 
       # Set up Node.js
       - name: Set up Node.js
