@@ -22,17 +22,18 @@ jobs:
       - name: Ensure State Directory
         run: mkdir -p ./state
 
-      # Restore the previous state of `i`
+      # Download previous state artifact
       - name: Download State Artifact
         uses: actions/download-artifact@v3
         with:
           name: puppeteer-state
-          path: ./state # Save to a "state" folder
+          path: ./state
         continue-on-error: true
 
-      # Debug artifact download
-      - name: Debug Downloaded Artifact
-        run: cat ./state/last_index.json || echo '{"lastIndex":0}' > ./state/last_index.json
+      # Debug state file before script
+      - name: Debug State File Before Script
+        run: cat ./state/last_index.json || echo '{"lastIndex": 0}' > ./state/last_index.json
+        shell: bash
 
       # Set up Node.js
       - name: Set up Node.js
@@ -56,13 +57,14 @@ jobs:
           LAST_INDEX_PATH: ./state/last_index.json
         run: node new.js
 
-      # Debug the state file after execution
-      - name: Debug State File
+      # Debug state file after script
+      - name: Debug State File After Script
         run: cat ./state/last_index.json
+        shell: bash
 
-      # Save the current state of `i`
+      # Upload updated state artifact
       - name: Upload State Artifact
         uses: actions/upload-artifact@v3
         with:
           name: puppeteer-state
-          path: ./state # Save the "state" folder
+          path: ./state
