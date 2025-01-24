@@ -8,7 +8,6 @@ puppeteer.use(StealthPlugin());
 
 const lastIndexPath = process.env.LAST_INDEX_PATH || "./last_index.json";
 
-// Function to load the last value of `i`
 const loadLastIndex = () => {
   try {
     if (fs.existsSync(lastIndexPath)) {
@@ -18,8 +17,9 @@ const loadLastIndex = () => {
   } catch (error) {
     console.error("Error loading last index:", error);
   }
-  return 0;
+  return 0; // Default to 0 if the file doesn't exist
 };
+
 
 // Function to save the current value of `i`
 const saveLastIndex = (index) => {
