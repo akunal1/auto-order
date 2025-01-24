@@ -1,6 +1,8 @@
 name: Puppeteer Automation
 
 on:
+  schedule:
+    - cron: "0 */7 * * *" # Run every 7 hours
   workflow_dispatch: # Allow manual triggering
 
 jobs:
@@ -15,6 +17,13 @@ jobs:
       # Checkout the repository
       - name: Checkout Repository
         uses: actions/checkout@v3
+
+      # Restore the previous state of `i`
+      - name: Download State Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: puppeteer-state
+          path: ./state # Save to a "state" folder
 
       # Set up Node.js
       - name: Set up Node.js
@@ -34,4 +43,13 @@ jobs:
 
       # Run Puppeteer script
       - name: Run Puppeteer Script
+        env:
+          LAST_INDEX_PATH: ./state/last_index.json
         run: node new.js
+
+      # Save the current state of `i`
+      - name: Upload State Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: puppeteer-state
+          path: ./state # Save the "state" folder
