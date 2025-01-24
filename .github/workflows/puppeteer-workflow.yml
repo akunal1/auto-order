@@ -32,8 +32,11 @@ jobs:
 
       # Debug state file before script
       - name: Debug State File Before Script
-        run: cat ./state/last_index.json || echo '{"lastIndex": 0}' > ./state/last_index.json
-        shell: bash
+        run: |
+          if [ ! -f ./state/last_index.json ]; then
+            echo '{"lastIndex": 0}' > ./state/last_index.json
+          fi
+          cat ./state/last_index.json
 
       # Set up Node.js
       - name: Set up Node.js
@@ -60,7 +63,6 @@ jobs:
       # Debug state file after script
       - name: Debug State File After Script
         run: cat ./state/last_index.json
-        shell: bash
 
       # Upload updated state artifact
       - name: Upload State Artifact
