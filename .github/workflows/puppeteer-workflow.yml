@@ -37,13 +37,23 @@ jobs:
           fi
           cat ./state/last_index.json
 
-      # Step 5: Run Puppeteer Script
+      # Step 5: Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # Step 6: Install or Update Dependencies
+      - name: Install Dependencies
+        run: npm install
+
+      # Step 7: Run Puppeteer Script
       - name: Run Puppeteer Script
         env:
           LAST_INDEX_PATH: ./state/last_index.json
         run: node new.js
 
-      # Step 6: Update last_index.json
+      # Step 8: Update last_index.json
       - name: Update last_index.json
         run: |
           # Read the current index
@@ -57,10 +67,9 @@ jobs:
           # Update the JSON file
           echo "{\"lastIndex\": $next_index}" > ./state/last_index.json
 
-      # Step 7: Commit and Push the Updated Index
+      # Step 9: Commit and Push Updated Index
       - name: Commit and Push Updated Index
         run: |
           git add ./state/last_index.json
           git commit -m "Update lastIndex to $next_index"
           git push
-
