@@ -5,8 +5,8 @@ const formFields = require("./updated_addresses.json");
 puppeteer.use(StealthPlugin());
 
 (async () => {
-  let i = 729;
-  let j = 729;
+  let i = 1070;
+  let j = 1070;
   while (true) {
     console.log(
       "\n********************** order number *********************** ",
