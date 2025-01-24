@@ -6,7 +6,7 @@ const formFields = require("./updated_addresses.json");
 
 puppeteer.use(StealthPlugin());
 
-const lastIndexPath = process.env.LAST_INDEX_PATH || "./last_index.json";
+const lastIndexPath = process.env.LAST_INDEX_PATH || "./state/last_index.json";
 
 const loadLastIndex = () => {
   try {
@@ -20,11 +20,13 @@ const loadLastIndex = () => {
   return 0; // Default to 0 if the file doesn't exist
 };
 
-
 // Function to save the current value of `i`
 const saveLastIndex = (index) => {
   try {
-    fs.writeFileSync(lastIndexPath, JSON.stringify({ lastIndex: index }, null, 2));
+    fs.writeFileSync(
+      lastIndexPath,
+      JSON.stringify({ lastIndex: index }, null, 2)
+    );
     console.log("Saved last index:", index);
   } catch (error) {
     console.error("Error saving last index:", error);
@@ -47,7 +49,7 @@ const saveLastIndex = (index) => {
     }
 
     const browser = await puppeteer.launch({
-      headless: true,
+      headless: false,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
 
@@ -62,7 +64,7 @@ const saveLastIndex = (index) => {
       await page.goto(randomUrl, { waitUntil: "networkidle2", timeout: 60000 });
       console.log(`Navigated to ${randomUrl}`);
 
-      // (Rest of your automation logic...) 
+      // (Rest of your automation logic...)
 
       await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait 10 seconds
 
@@ -188,7 +190,6 @@ const saveLastIndex = (index) => {
       saveLastIndex(i); // Save the current value of `i`
       await browser.close();
       console.log("Browser closed. Restarting process...");
-      break; // Exit after one iteration for testing; remove this in production
     }
   }
 })();
