@@ -62,8 +62,7 @@ const saveLastIndex = (index) => {
       await page.goto(randomUrl, { waitUntil: "networkidle2", timeout: 60000 });
       console.log(`Navigated to ${randomUrl}`);
 
-      // (Rest of your automation logic...)
- console.log(Navigated to ${randomUrl});
+      // (Rest of your automation logic...) 
 
       await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait 10 seconds
 
