@@ -47,7 +47,7 @@ const saveLastIndex = (index) => {
 
 (async () => {
   let i = loadLastIndex();
-  let j = 0;ƒ
+  let j = 0;
 
   while (true) {
     console.log(
