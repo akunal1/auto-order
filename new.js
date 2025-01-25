@@ -148,10 +148,11 @@ const saveLastIndex = (index) => {
       });
 
       let contact = data.email
+       console.log("mobile number generated-->",contact,(data.email??"").lenght===10 )
       if((data.email??"").lenght===10){
           console.log()
           contact =  generatePhoneNumber()
-         console.log("mobile number generated-->",contact,(data.email??"").lenght===10 )
+        
       }
 
       await page.type('input[name="email"]', contact, {
