@@ -47,7 +47,7 @@ const saveLastIndex = (index) => {
 
 (async () => {
   let i = loadLastIndex();
-  let j = 0;
+  let j = 0;ƒ
 
   while (true) {
     console.log(
@@ -207,6 +207,7 @@ const saveLastIndex = (index) => {
       console.error("Error during automation:", error);
     } finally {
       i++;
+      j++;
       saveLastIndex(i); // Save the current value of `i`
       await browser.close();
       console.log("Browser closed. Restarting process...");
