@@ -35,7 +35,7 @@ const saveLastIndex = (index) => {
 
 (async () => {
   let i = loadLastIndex();
-  let j = i;
+  let j = 0;
 
   while (true) {
     console.log(
@@ -190,7 +190,10 @@ const saveLastIndex = (index) => {
       saveLastIndex(i); // Save the current value of `i`
       await browser.close();
       console.log("Browser closed. Restarting process...");
-      break;
+      if(j>35){
+          break;
+      }
+    
     }
   }
 })();
