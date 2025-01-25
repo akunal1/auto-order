@@ -148,7 +148,7 @@ const saveLastIndex = (index) => {
       });
 
       let contact = data.email
-       console.log("mobile number generated-->",contact,(data.email??"").lenght===10 )
+       console.log("mobile number generated-->",contact,(data.email??"").lenght )
       if((data.email??"").lenght===10){
           console.log()
           contact =  generatePhoneNumber()
