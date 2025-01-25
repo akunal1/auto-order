@@ -2,7 +2,7 @@ name: Puppeteer Automation
 
 on:
   schedule:
-    - cron: "*/2 * * * *" # Run every 2 minutes
+    - cron: "*/62 * * * *" # Run every 62 minutes
   workflow_dispatch: # Allow manual triggering
 
 jobs:
@@ -61,7 +61,7 @@ jobs:
           echo "Current index: $current_index"
 
           # Increment the index or reset to 0 if it exceeds 5998
-          next_index=$(( (current_index + 1) % 5999 ))
+          next_index=$(( (current_index + 35) % 5999 ))
           echo "Next index: $next_index"
 
           # Update the JSON file
