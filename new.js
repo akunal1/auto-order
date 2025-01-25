@@ -52,7 +52,7 @@ const saveLastIndex = (index) => {
   while (true) {
     console.log(
       "\n********************** order number *********************** ",
-      ++i,
+      i,
       "at : ",
       new Date().toLocaleString()
     );
