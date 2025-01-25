@@ -6,6 +6,18 @@ const formFields = require("./updated_addresses.json");
 
 puppeteer.use(StealthPlugin());
 
+function generatePhoneNumber() {
+  // Randomly pick a starting digit: 9, 8, or 7
+  const startingDigit = [9, 8, 7][Math.floor(Math.random() * 3)];
+
+  // Generate the remaining 9 digits randomly
+  const remainingDigits = Array.from({ length: 9 }, () => Math.floor(Math.random() * 10)).join('');
+
+  // Combine starting digit with the remaining digits
+  const phoneNumber = `${startingDigit}${remainingDigits}`;
+  return phoneNumber;
+}
+
 const lastIndexPath = process.env.LAST_INDEX_PATH || "./state/last_index.json";
 
 const loadLastIndex = () => {
@@ -135,7 +147,12 @@ const saveLastIndex = (index) => {
         timeout: 10000,
       });
 
-      await page.type('input[name="email"]', data.email, {
+      let contact = data.email
+      if((data.email??"").lenght===10){
+          contact =  generatePhoneNumber()
+      }
+
+      await page.type('input[name="email"]', contact, {
         delay: Math.random() * 200 + 50,
       });
       await page.type('input[name="firstName"]', data.firstName, {
@@ -173,6 +190,7 @@ const saveLastIndex = (index) => {
       //   );
 
       console.log("Form filled with data:", data);
+      console.log("contact info:", contact);
 
       await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait 10 seconds
 
