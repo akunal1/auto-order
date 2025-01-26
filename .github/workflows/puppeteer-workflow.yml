@@ -2,7 +2,7 @@ name: Puppeteer Automation
 
 on:
   schedule:
-    - cron: "*/45 * * * *" # Run every 62 minutes
+    # - cron: "*/45 * * * *" # Run every 62 minutes
   workflow_dispatch: # Allow manual triggering
 
 jobs:
