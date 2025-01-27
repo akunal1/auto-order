@@ -50,6 +50,7 @@ const saveLastIndex = (index) => {
 (async () => {
   let i = loadLastIndex();
   let j = 0;
+  let k=0;
 
   while (true) {
     console.log(
@@ -189,10 +190,15 @@ const saveLastIndex = (index) => {
       await new Promise((resolve) => setTimeout(resolve, 20000)); // Wait 30 seconds
       const currentUrl = page.url(); // Get the current URL
       if (currentUrl.includes("https://shopify.com/")) {
+        k=0;
         console.log("<<<<<<<<<<<<<< success >>>>>>>>>>>>>>");
       } else {
-        console.log("URL does not contain 'https://shopify.com/'. Breaking...");
-        break;
+        k++;
+        console.log("URL does not contain 'https://shopify.com/'. xxxxxxxxxxx FAILED XXXXXXXXXXX");
+        if(k>5){
+         break;
+        }
+       
       }
     } catch (error) {
       console.error("Error during automation:", error);
