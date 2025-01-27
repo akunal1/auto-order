@@ -1,6 +1,9 @@
-name: Puppeteer Automation
+
+name: Kannauj Attarrrr Automation
 
 on:
+  schedule:
+    - cron: "*/60 * * * *" # Run every 40 minutes
   workflow_dispatch: # Allow manual triggering
 
 jobs:
